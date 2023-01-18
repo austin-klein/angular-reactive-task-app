@@ -9,7 +9,6 @@ export class HeaderComponent {
   text: string = '';
 
   changeText(event: Event): void {
-    console.log(event, 'here');
     const target = event.target as HTMLInputElement;
     this.text = target.value;
   }
