@@ -1,6 +1,7 @@
 import { EventEmitter, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { TasksService } from '../../services/tasks.service';
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
@@ -10,6 +11,7 @@ describe('HeaderComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [HeaderComponent],
+      providers: [TasksService],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HeaderComponent);
@@ -48,7 +50,29 @@ describe('HeaderComponent', () => {
       shiftKey: false,
       key: 'Enter',
     });
+
     input.nativeElement.dispatchEvent(event);
     expect(addTaskSpy.calls.count()).toEqual(1);
+  });
+
+  it('text resets to empty after addTask is called', () => {
+    const input = fixture.debugElement.query(By.css('input'));
+    const event = new KeyboardEvent('keyup', {
+      bubbles: true,
+      cancelable: true,
+      shiftKey: false,
+    });
+    const eventAdd = new KeyboardEvent('keyup', {
+      bubbles: true,
+      cancelable: true,
+      shiftKey: false,
+      key: 'Enter',
+    });
+
+    input.nativeElement.value = 'test';
+    input.nativeElement.dispatchEvent(event);
+    input.nativeElement.dispatchEvent(eventAdd);
+
+    expect(component.text).toEqual('');
   });
 });
