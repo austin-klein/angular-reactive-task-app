@@ -7,6 +7,7 @@ import { HeaderComponent } from './header.component';
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
+  let mockTasksService: TasksService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -15,6 +16,8 @@ describe('HeaderComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(HeaderComponent);
+    mockTasksService = TestBed.inject(TasksService);
+    spyOn(mockTasksService, 'addTask').and.returnValue();
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
